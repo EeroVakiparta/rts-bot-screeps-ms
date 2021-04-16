@@ -2,6 +2,7 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
+var rolePioneer = require('role.pioneer');
 
 module.exports.loop = function () {
 
@@ -61,6 +62,18 @@ module.exports.loop = function () {
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'repairer'}});
     }
+
+    // Pioneer spawner
+    // --Make sure there is at least 1 repairer at all times
+    var pioneers = _.filter(Game.creeps, (creep) => creep.memory.role == 'pioneer');
+    //console.log('Pioneer: ' + pioneers.length);
+
+    if(pioneers.length < 1 && Game.gcl.level > 1) {
+        var newName = 'Pioneer' + Game.time;
+        //console.log('Spawning new pioneer: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep([CLAIM,WORK,CARRY,MOVE], newName,
+            {memory: {role: 'pioneer'}});
+    }
     
     for(var name in Game.creeps) {
         if(Game.creeps)
@@ -76,6 +89,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'repairer') {
             roleRepairer.run(creep);
+        }
+        if(creep.memory.role == 'pioneer') {
+            rolePioneer.run(creep);
         }
     }
 }
