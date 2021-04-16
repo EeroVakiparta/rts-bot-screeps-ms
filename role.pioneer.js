@@ -8,6 +8,7 @@ var rolePioneer = {
             var exit = creep.room.findExitTo(creep.memory.target);
             // move to exit
             creep.moveTo(creep.pos.findClosestByRange(exit));
+            creep.say('Searching');
         }
         else {
             // try to claim controller

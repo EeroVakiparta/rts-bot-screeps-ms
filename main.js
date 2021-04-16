@@ -63,18 +63,24 @@ module.exports.loop = function () {
             {memory: {role: 'repairer'}});
     }
 
-    // Pioneer spawner
-    // --Make sure there is at least 1 repairer at all times
-    var pioneers = _.filter(Game.creeps, (creep) => creep.memory.role == 'pioneer');
-    //console.log('Pioneer: ' + pioneers.length);
+    if(Game.spawns.Spawn1.memory.claimRoom != undefined){
+                // Pioneer spawner
+        // --Make sure there is at least 1 repairer at all times
+        var pioneers = _.filter(Game.creeps, (creep) => creep.memory.role == 'pioneer');
+        //console.log('Pioneer: ' + pioneers.length);
+        var target = Game.spawns.Spawn1.memory.claimRoom;
+        if(Game.gcl.level > 1) {
+            var newName = 'Pioneer' + Game.time;
+            //console.log('Spawning new pioneer: ' + newName);
+            Game.spawns['Spawn1'].spawnCreep([CLAIM,MOVE,MOVE], newName,
+                {memory: {role: 'pioneer',target: target}});
+        }
+        if(!(name < 0)){
+            delete Game.spawns.Spawn1.memory.claimRoom;
+        }
 
-    if(pioneers.length < 1 && Game.gcl.level > 1) {
-        var newName = 'Pioneer' + Game.time;
-        //console.log('Spawning new pioneer: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([CLAIM,WORK,CARRY,MOVE], newName,
-            {memory: {role: 'pioneer'}});
     }
-    
+
     for(var name in Game.creeps) {
         if(Game.creeps)
         var creep = Game.creeps[name];
