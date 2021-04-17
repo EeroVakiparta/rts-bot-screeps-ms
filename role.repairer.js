@@ -1,5 +1,5 @@
 var roleRepairer = {
-
+    //TODO: repair target priorities
     /** @param {Creep} creep **/
     run: function(creep) {
 
