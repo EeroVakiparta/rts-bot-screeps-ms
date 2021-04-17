@@ -4,10 +4,18 @@ var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleArmy = require('role.army');
 var roleHealer = require('role.healer');
+var roleLDHarvester = require('role.ldharvester');
+
+
 var underAttack = false; // could be passed to creeps in memory?
 
 module.exports.loop = function () {
-
+    
+    if(Game.cpu.bucket == 10000){
+        Game.cpu.generatePixel()
+        console.log('Bought a pixel! At: ' + Game.time)
+    }
+    
     // Soul reaper
     // -- For making sure there is not memory overload caused by souls of the dead creeps
     for(var name in Memory.creeps) {
@@ -17,16 +25,29 @@ module.exports.loop = function () {
         }
     }
     
-    // Harvester spawner
-    // --Make sure there is at least 2 harvesters at all times
-    var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-    //console.log('Harvesters: ' + harvesters.length);
+
     if(!underAttack){
-        if(harvesters.length < 2) {
+        // Harvester spawner
+        // --Make sure there is at least 2 harvesters at all times
+        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
+        //console.log('Harvesters: ' + harvesters.length);
+        if(harvesters.length < 4) {
             var newName = 'Harvester' + Game.time;
             //console.log('Spawning new harvester: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'harvester'}});
+        }
+        
+        // LongDistance Harvester spawner
+        var ldharvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldharvester');
+        if(ldharvesters.length < 1) {
+            var newName = 'LDHarvester' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
+                {memory: {role: 'ldharvester',
+                    home: 'E24S53',
+                    target: 'E23S53',
+                    sourceIndex: 0
+                }});
         }
         
         // Builder spawner
@@ -34,10 +55,10 @@ module.exports.loop = function () {
         var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
         //console.log('Builders: ' + builders.length);
 
-        if(builders.length < 0) {
+        if(builders.length < 5) {
             var newName = 'Builder' + Game.time;
             //console.log('Spawning new builder: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'builder'}});
         }
         
@@ -46,10 +67,10 @@ module.exports.loop = function () {
         var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
         //console.log('Upgrader: ' + upgraders.length);
 
-        if(upgraders.length < 1) {
+        if(upgraders.length < 6) {
             var newName = 'Upgrader' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'upgrader'}});
         }
         
@@ -58,7 +79,7 @@ module.exports.loop = function () {
         var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
         //console.log('Repairer: ' + repairers.length);
 
-        if(repairers.length < 1) {
+        if(repairers.length < 0) {
             var newName = 'Repairer' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
             Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
@@ -69,7 +90,7 @@ module.exports.loop = function () {
     // Army spawner
     // --Make defender when under attack
     var army = _.filter(Game.creeps, (creep) => creep.memory.role == 'army');
-    var hostiles = Game.rooms['W1N5'].find(FIND_HOSTILE_CREEPS);
+    var hostiles = Game.rooms['E24S53'].find(FIND_HOSTILE_CREEPS);
     if(hostiles.length > 0){
         underAttack = true;
     }else {
@@ -79,7 +100,7 @@ module.exports.loop = function () {
     if(hostiles.length + 1 > army.length && underAttack) {
         var newName = 'Army' + Game.time;
         console.log('Under attack ! Spawning new armycreep: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,RANGED_ATTACK], newName,
+        Game.spawns['Spawn1'].spawnCreep([TOUGH,MOVE,ATTACK], newName,
             {memory: {role: 'army'}});
     }
 
@@ -99,6 +120,9 @@ module.exports.loop = function () {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
             roleHarvester.run(creep);
+        }
+        if(creep.memory.role == 'ldharvester') {
+            roleLDHarvester.run(creep);
         }
         if(creep.memory.role == 'upgrader') {
             roleUpgrader.run(creep);
