@@ -11,7 +11,11 @@ var roleHealer = {
 
 			if (creep.heal(targets[0]) == ERR_NOT_IN_RANGE) {
 				const closestLowHP = creep.pos.findClosestByRange(targets);
-				creep.moveTo(closestLowHP);
+				if (creep.heal(closestLowHP) == ERR_NOT_IN_RANGE) {
+				    creep.moveTo(closestLowHP);
+				    creep.say("Heal: " + closestLowHP.name)
+			    }
+				
 			}
 		}
 	},
