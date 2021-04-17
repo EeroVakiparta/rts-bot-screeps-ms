@@ -3,6 +3,7 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleArmy = require('role.army');
+var roleHealer = require('role.healer');
 var underAttack = false; // could be passed to creeps in memory?
 
 module.exports.loop = function () {
@@ -81,6 +82,17 @@ module.exports.loop = function () {
         Game.spawns['Spawn1'].spawnCreep([TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,RANGED_ATTACK], newName,
             {memory: {role: 'army'}});
     }
+
+    // Healer spawner
+    // --Make healer after fight
+    var healers = _.filter(Game.creeps, (creep) => creep.memory.role == 'healer');
+
+    if(army.length > 0 && !underAttack && healers.length < 1) {
+        var newName = 'Nurse' + Game.time;
+        console.log('Spawning new nurse: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep([HEAL,MOVE], newName,
+            {memory: {role: 'healer'}});
+    }
     
     for(var name in Game.creeps) {
         if(Game.creeps)
@@ -99,6 +111,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'army') {
             roleArmy.run(creep);
+        }
+        if(creep.memory.role == 'healer') {
+            roleHealer.run(creep);
         }
     }
 }
