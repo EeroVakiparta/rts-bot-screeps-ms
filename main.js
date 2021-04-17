@@ -2,6 +2,7 @@ var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
+var roleArmy = require('role.army');
 
 module.exports.loop = function () {
 
@@ -61,6 +62,17 @@ module.exports.loop = function () {
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'repairer'}});
     }
+
+    // Army spawner
+    // --Make defender when under attack
+    var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'army');
+
+    if(Game.room.find(Game.HOSTILE_CREEPS)) {
+        var newName = 'Army' + Game.time;
+        console.log('Under attack ! Spawning new armycreep: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep([TOUGH,TOUGH,ATTACK,MOVE,MOVE], newName,
+            {memory: {role: 'army'}});
+    }
     
     for(var name in Game.creeps) {
         if(Game.creeps)
@@ -76,6 +88,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'repairer') {
             roleRepairer.run(creep);
+        }
+        if(creep.memory.role == 'army') {
+            roleArmy.run(creep);
         }
     }
 }
