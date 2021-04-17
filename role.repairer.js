@@ -14,11 +14,11 @@ var roleRepairer = {
 		} else {
 			if (creep.memory.repairing && creep.store[RESOURCE_ENERGY] == 0) {
 				creep.memory.repairing = false;
-				creep.say("🔄 harvest");
+				creep.say("🔄");
 			}
 			if (!creep.memory.repairing && creep.store.getFreeCapacity() == 0) {
 				creep.memory.repairing = true;
-				creep.say("🚧 repair");
+				creep.say("🚧");
 			}
 
 			if (creep.memory.repairing) {
@@ -56,7 +56,6 @@ var roleRepairer = {
 						creep.moveTo(sources[0], {
 							visualizePathStyle: { stroke: "#ffaa00" },
 						});
-						creep.say("gathering");
 					}
 				}
 			}
