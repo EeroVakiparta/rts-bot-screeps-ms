@@ -65,12 +65,13 @@ module.exports.loop = function () {
 
     // Army spawner
     // --Make defender when under attack
-    var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'army');
+    var army = _.filter(Game.creeps, (creep) => creep.memory.role == 'army');
+    var hostiles = Game.rooms['W1N5'].find(FIND_HOSTILE_CREEPS);
 
-    if(Game.room.find(Game.HOSTILE_CREEPS)) {
+    if(hostiles.length > army.length) {
         var newName = 'Army' + Game.time;
         console.log('Under attack ! Spawning new armycreep: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([TOUGH,TOUGH,ATTACK,MOVE,MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,RANGED_ATTACK], newName,
             {memory: {role: 'army'}});
     }
     
