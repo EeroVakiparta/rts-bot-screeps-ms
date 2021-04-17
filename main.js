@@ -3,6 +3,7 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleArmy = require('role.army');
+var underAttack = false; // could be passed to creeps in memory?
 
 module.exports.loop = function () {
 
@@ -20,7 +21,7 @@ module.exports.loop = function () {
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     //console.log('Harvesters: ' + harvesters.length);
 
-    if(harvesters.length < 2) {
+    if(harvesters.length < 2 && !underAttack) {
         var newName = 'Harvester' + Game.time;
         //console.log('Spawning new harvester: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
@@ -32,7 +33,7 @@ module.exports.loop = function () {
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     //console.log('Builders: ' + builders.length);
 
-    if(builders.length < 0) {
+    if(builders.length < 0 && !underAttack) {
         var newName = 'Builder' + Game.time;
         //console.log('Spawning new builder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
@@ -44,7 +45,7 @@ module.exports.loop = function () {
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     //console.log('Upgrader: ' + upgraders.length);
 
-    if(upgraders.length < 4) {
+    if(upgraders.length < 0 && !underAttack) {
         var newName = 'Upgrader' + Game.time;
         //console.log('Spawning new upgrader: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
@@ -56,7 +57,7 @@ module.exports.loop = function () {
     var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
     //console.log('Repairer: ' + repairers.length);
 
-    if(repairers.length < 1) {
+    if(repairers.length < 0 && !underAttack) {
         var newName = 'Repairer' + Game.time;
         //console.log('Spawning new upgrader: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
@@ -67,11 +68,16 @@ module.exports.loop = function () {
     // --Make defender when under attack
     var army = _.filter(Game.creeps, (creep) => creep.memory.role == 'army');
     var hostiles = Game.rooms['W1N5'].find(FIND_HOSTILE_CREEPS);
-
-    if(hostiles.length > army.length) {
+    if(hostiles.length > 0){
+        underAttack = true;
+    }else {
+        underAttack = false;
+    }
+    // It seems like equal battles are still lost before I make smarter army. So until then +1
+    if(hostiles.length + 1 > army.length) {
         var newName = 'Army' + Game.time;
         console.log('Under attack ! Spawning new armycreep: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,RANGED_ATTACK], newName,
+        Game.spawns['Spawn1'].spawnCreep([TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,RANGED_ATTACK], newName,
             {memory: {role: 'army'}});
     }
     
