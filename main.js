@@ -20,48 +20,49 @@ module.exports.loop = function () {
     // --Make sure there is at least 2 harvesters at all times
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     //console.log('Harvesters: ' + harvesters.length);
+    if(!underAttack){
+        if(harvesters.length < 2) {
+            var newName = 'Harvester' + Game.time;
+            //console.log('Spawning new harvester: ' + newName);
+            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
+                {memory: {role: 'harvester'}});
+        }
+        
+        // Builder spawner
+        // --Make sure there is at least 1 builder at all times
+        var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
+        //console.log('Builders: ' + builders.length);
 
-    if(harvesters.length < 2 && !underAttack) {
-        var newName = 'Harvester' + Game.time;
-        //console.log('Spawning new harvester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
-            {memory: {role: 'harvester'}});
-    }
-    
-    // Builder spawner
-    // --Make sure there is at least 1 builder at all times
-    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-    //console.log('Builders: ' + builders.length);
+        if(builders.length < 0) {
+            var newName = 'Builder' + Game.time;
+            //console.log('Spawning new builder: ' + newName);
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'builder'}});
+        }
+        
+        // Upgrader spawner
+        // --Make sure there is at least 1 upgrader at all times
+        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+        //console.log('Upgrader: ' + upgraders.length);
 
-    if(builders.length < 0 && !underAttack) {
-        var newName = 'Builder' + Game.time;
-        //console.log('Spawning new builder: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
-            {memory: {role: 'builder'}});
-    }
-    
-    // Upgrader spawner
-    // --Make sure there is at least 1 upgrader at all times
-    var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-    //console.log('Upgrader: ' + upgraders.length);
+        if(upgraders.length < 1) {
+            var newName = 'Upgrader' + Game.time;
+            //console.log('Spawning new upgrader: ' + newName);
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'upgrader'}});
+        }
+        
+        // Repairer spawner
+        // --Make sure there is at least 1 repairer at all times
+        var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
+        //console.log('Repairer: ' + repairers.length);
 
-    if(upgraders.length < 0 && !underAttack) {
-        var newName = 'Upgrader' + Game.time;
-        //console.log('Spawning new upgrader: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
-            {memory: {role: 'upgrader'}});
-    }
-    
-    // Repairer spawner
-    // --Make sure there is at least 1 repairer at all times
-    var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
-    //console.log('Repairer: ' + repairers.length);
-
-    if(repairers.length < 0 && !underAttack) {
-        var newName = 'Repairer' + Game.time;
-        //console.log('Spawning new upgrader: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
-            {memory: {role: 'repairer'}});
+        if(repairers.length < 1) {
+            var newName = 'Repairer' + Game.time;
+            //console.log('Spawning new upgrader: ' + newName);
+            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+                {memory: {role: 'repairer'}});
+        }
     }
 
     // Army spawner
@@ -74,7 +75,7 @@ module.exports.loop = function () {
         underAttack = false;
     }
     // It seems like equal battles are still lost before I make smarter army. So until then +1
-    if(hostiles.length + 1 > army.length) {
+    if(hostiles.length + 1 > army.length && underAttack) {
         var newName = 'Army' + Game.time;
         console.log('Under attack ! Spawning new armycreep: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,RANGED_ATTACK], newName,
