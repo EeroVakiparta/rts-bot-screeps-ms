@@ -26,10 +26,25 @@ var roleRepairer = {
             }
         }
         else {
+            const drops = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
+            const tombs = creep.pos.findClosestByRange(FIND_TOMBSTONES);
+            if(drops) {
+                if(creep.pickup(drops) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(drops);
+                    creep.say('nom nom');
+                }
+            }else if(tombs) {
+                if(creep.pickup(tombs) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(tombs);
+                    creep.say('nam nam');
+                }
+            }else{
             var sources = creep.room.find(FIND_SOURCES);
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
+            }
+
         }
     }
 };
