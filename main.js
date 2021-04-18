@@ -31,23 +31,49 @@ module.exports.loop = function () {
         // --Make sure there is at least 2 harvesters at all times
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
         //console.log('Harvesters: ' + harvesters.length);
-        if(harvesters.length < 4) {
+        if(harvesters.length < 6) {
             var newName = 'Harvester' + Game.time;
             //console.log('Spawning new harvester: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'harvester'}});
         }
-        
-        // LongDistance Harvester spawner
-        var ldharvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldharvester');
-        if(ldharvesters.length < 1) {
-            var newName = 'LDHarvester' + Game.time;
-            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
-                {memory: {role: 'ldharvester',
-                    home: 'E24S53',
-                    target: 'E23S53',
-                    sourceIndex: 0
-                }});
+        if (harvesters.length > 5){
+            // LongDistance Harvester spawner
+            var ldharvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldharvester' && creep.memory.target == 'E23S53');
+            if(ldharvesters.length < 4) {
+                var newName = 'LDHarvester' + Game.time;
+                Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
+                    {memory: {role: 'ldharvester',
+                        home: 'E24S53',
+                        target: 'E23S53',
+                        sourceIndex: 0
+                    }});
+            }
+            
+                    // LongDistance Harvester spawner
+            var ldharvesters2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldharvester' && creep.memory.target == 'E23S52');
+            if(ldharvesters2.length < 2) {
+                var newName = 'LDHarvester' + Game.time;
+                Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
+                    {memory: {role: 'ldharvester',
+                        home: 'E24S53',
+                        target: 'E23S52',
+                        sourceIndex: 1
+                    }});
+            }
+            
+                    // LongDistance Harvester spawner
+            var ldharvesters3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldharvester' && creep.memory.target == 'E22S53' );
+            //console.log(ldharvesters3.length)
+            if(ldharvesters3.length < 1) {
+                var newName = 'LDHarvester' + Game.time;
+                Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
+                    {memory: {role: 'ldharvester',
+                        home: 'E24S53',
+                        target: 'E22S53',
+                        sourceIndex: 0
+                    }});
+            }
         }
         
         // Builder spawner
@@ -55,10 +81,10 @@ module.exports.loop = function () {
         var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
         //console.log('Builders: ' + builders.length);
 
-        if(builders.length < 5) {
+        if(builders.length < 1) {
             var newName = 'Builder' + Game.time;
             //console.log('Spawning new builder: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'builder'}});
         }
         
@@ -67,10 +93,10 @@ module.exports.loop = function () {
         var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
         //console.log('Upgrader: ' + upgraders.length);
 
-        if(upgraders.length < 6) {
+        if(upgraders.length < 9 && harvesters.length > 5) {
             var newName = 'Upgrader' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'upgrader'}});
         }
         
@@ -82,7 +108,7 @@ module.exports.loop = function () {
         if(repairers.length < 0) {
             var newName = 'Repairer' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'repairer'}});
         }
     }
@@ -100,7 +126,7 @@ module.exports.loop = function () {
     if(hostiles.length + 1 > army.length && underAttack) {
         var newName = 'Army' + Game.time;
         console.log('Under attack ! Spawning new armycreep: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([TOUGH,MOVE,ATTACK], newName,
+        Game.spawns['Spawn1'].spawnCreep([TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,RANGED_ATTACK], newName,
             {memory: {role: 'army'}});
     }
 

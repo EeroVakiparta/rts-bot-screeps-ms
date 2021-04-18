@@ -2,12 +2,12 @@ var roleLDHarvester = {
 	/** @param {Creep} creep **/
 	run: function (creep) {
 		let enemies = creep.room.find(FIND_HOSTILE_CREEPS);
-		
+		/*
 		console.log(creep.memory.home)
 		console.log(creep.memory.target)
 		console.log(creep.memory.sourceIndex)
-
-		if (enemies.length > 0) {
+        */
+		if (enemies.length > 999999999999999999999999999999999) {
 			// TODO: PANICCC
 		} else {
 			if (creep.store.getFreeCapacity() > 0) {
@@ -35,11 +35,12 @@ var roleLDHarvester = {
 						},
 					});
 					if (priorityTargets.length > 0) {
+					    var closest = creep.pos.findClosestByRange(priorityTargets);
 						if (
-							creep.transfer(priorityTargets[0], RESOURCE_ENERGY) ==
+							creep.transfer(closest, RESOURCE_ENERGY) ==
 							ERR_NOT_IN_RANGE
 						) {
-							creep.moveTo(priorityTargets[0], {
+							creep.moveTo(closest, {
 								visualizePathStyle: { stroke: "#ffffff" },
 							});
 						}
@@ -65,6 +66,7 @@ var roleLDHarvester = {
 							}
 						} else {
 							// TODO: make better way to have harvester move away when it has nothing to do
+                            // FOr example upgrading ? Maybe not,,, LDHs are not fast enought upgrading
 							creep.say("😪");
 							creep.moveTo(41, 26);
 						}
