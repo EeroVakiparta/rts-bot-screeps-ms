@@ -4,6 +4,7 @@ var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleArmy = require('role.army');
 var roleHealer = require('role.healer');
+var roleHauler = require('role.hauler');
 var underAttack = false; // could be passed to creeps in memory?
 
 module.exports.loop = function () {
@@ -64,12 +65,22 @@ module.exports.loop = function () {
             Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
                 {memory: {role: 'repairer'}});
         }
+        
+        // Hauler spawner
+        var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler');
+
+        if(haulers.length < 1) {
+            var newName = 'Hauler' + Game.time;
+            //console.log('Spawning new upgrader: ' + newName);
+            Game.spawns['Spawn1'].spawnCreep([CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'hauler'}});
+        }
     }
 
     // Army spawner
     // --Make defender when under attack
     var army = _.filter(Game.creeps, (creep) => creep.memory.role == 'army');
-    var hostiles = Game.rooms['W1N5'].find(FIND_HOSTILE_CREEPS);
+    var hostiles = Game.rooms['E24S53'].find(FIND_HOSTILE_CREEPS);
     if(hostiles.length > 0){
         underAttack = true;
     }else {
@@ -114,6 +125,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'healer') {
             roleHealer.run(creep);
+        }
+        if(creep.memory.role == 'hauler') {
+            roleHauler.run(creep);
         }
     }
 }
