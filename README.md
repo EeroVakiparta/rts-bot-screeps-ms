@@ -2,11 +2,29 @@
 
 ## JS bot for MMO RTS https://docs.screeps.com/api/
 
-# bot v0.1
+# bot v0.2
 
-Can gather building materials, upgrade room controller, has potential to build something
+Can gather 
+- building materials
+- upgrade room controller
+- builds what it's told to build
+- can claim other rooms
+- defends well agains 50body attackers
+- harvests all hourly energy without overflow
+- can gather minerals
+- has versatile attacking capabilities 
+
+Major TODOS:
+
+- Refactoring
+- Implementing order structure: Instead of every creep figuring out independently what it is doing, there would be an order generator and distributor.
+- Much more autonomous code. At the moment needs a lot of babysitting.
 
 ---
+
+Update:
+All close competition has been eliminated. The major factor is the efficiency of turning energy into control points which in turn allowed stronger army.
+![image](https://user-images.githubusercontent.com/41569318/116146116-cdc71f80-a6e6-11eb-8979-a63797ca1ecf.png)
 
 ## Starting own server (Ubuntu20.04LTS)
 
