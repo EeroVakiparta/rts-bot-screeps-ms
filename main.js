@@ -1,5 +1,6 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
+var roleCUpgrader = require('role.cupgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleArmy = require('role.army');
@@ -99,6 +100,15 @@ module.exports.loop = function () {
             Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'upgrader'}});
         }
+
+        // Container pgrader spawner
+        var cupgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'cupgrader');
+
+        if(cupgraders.length < 1) {
+            var newName = 'CUpgrader' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'cupgrader'}});
+        }
         
         // Repairer spawner
         // --Make sure there is at least 1 repairer at all times
@@ -174,6 +184,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'healer') {
             roleHealer.run(creep);
+        }
+        if(creep.memory.role == 'cupgrader') {
+            roleCUpgrader.run(creep);
         }
         if(creep.memory.role == 'hauler') {
             roleHauler.run(creep);
