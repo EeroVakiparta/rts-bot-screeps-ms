@@ -17,7 +17,11 @@ var roleHealer = {
 			    }
 				
 			}
-		}
+		}else{
+                let flag = Game.flags["TankAttack"];
+                 //console.log("moving to flag room" + flag)
+		        creep.moveTo(flag, {visualizePathStyle: {stroke: '#cc00cc'}});
+			}
 	},
 };
 
