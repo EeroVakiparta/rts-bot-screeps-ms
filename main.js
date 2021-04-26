@@ -3,6 +3,7 @@ var roleUpgrader = require('role.upgrader');
 var roleCUpgrader = require('role.cupgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
+var rolePioneer = require('role.pioneer');
 var roleArmy = require('role.army');
 var roleHealer = require('role.healer');
 var roleHauler = require('role.hauler');
@@ -161,6 +162,25 @@ module.exports.loop = function () {
             {memory: {role: 'healer'}});
     }
     
+
+    if(Game.spawns.Spawn1.memory.claimRoom != undefined){
+                // Pioneer spawner
+        // --Make sure there is at least 1 repairer at all times
+        var pioneers = _.filter(Game.creeps, (creep) => creep.memory.role == 'pioneer');
+        //console.log('Pioneer: ' + pioneers.length);
+        var target = Game.spawns.Spawn1.memory.claimRoom;
+        if(Game.gcl.level > 1) {
+            var newName = 'Pioneer' + Game.time;
+            //console.log('Spawning new pioneer: ' + newName);
+            Game.spawns['Spawn1'].spawnCreep([CLAIM,MOVE,MOVE], newName,
+                {memory: {role: 'pioneer',target: target}});
+        }
+        if(!(name < 0)){
+            delete Game.spawns.Spawn1.memory.claimRoom;
+        }
+
+    }
+
     for(var name in Game.creeps) {
         if(Game.creeps)
         var creep = Game.creeps[name];
@@ -181,6 +201,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'army') {
             roleArmy.run(creep);
+        }
+        if(creep.memory.role == 'pioneer') {
+            rolePioneer.run(creep);
         }
         if(creep.memory.role == 'healer') {
             roleHealer.run(creep);

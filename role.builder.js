@@ -1,6 +1,16 @@
 var roleBuilder = {
   /** @param {Creep} creep **/
   run: function (creep) {
+
+      // if in target room
+      if (creep.memory.target != undefined && creep.room.name != creep.memory.target) {
+        // find exit to target room
+        var exit = creep.room.findExitTo(creep.memory.target);
+        // move to exit
+        creep.moveTo(creep.pos.findClosestByRange(exit));
+        creep.say('Searching');
+    }
+
     if (creep.memory.building && creep.store[RESOURCE_ENERGY] == 0) {
       creep.memory.building = false;
       creep.say("⚡");
