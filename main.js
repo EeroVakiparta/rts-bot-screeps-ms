@@ -5,8 +5,8 @@ var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleArmy = require('role.army');
 var roleHealer = require('role.healer');
+var roleHauler = require('role.hauler');
 var roleLDHarvester = require('role.ldharvester');
-
 
 var underAttack = false; // could be passed to creeps in memory?
 
@@ -121,6 +121,16 @@ module.exports.loop = function () {
             Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'repairer'}});
         }
+        
+        // Hauler spawner
+        var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler');
+
+        if(haulers.length < 1) {
+            var newName = 'Hauler' + Game.time;
+            //console.log('Spawning new upgrader: ' + newName);
+            Game.spawns['Spawn1'].spawnCreep([CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'hauler'}});
+        }
     }
 
     // Army spawner
@@ -177,6 +187,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'cupgrader') {
             roleCUpgrader.run(creep);
+        }
+        if(creep.memory.role == 'hauler') {
+            roleHauler.run(creep);
         }
     }
 }
