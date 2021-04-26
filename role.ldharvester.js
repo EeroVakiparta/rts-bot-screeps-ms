@@ -29,17 +29,14 @@ var roleLDHarvester = {
 						filter: (structure) => {
 							return (
 								(structure.structureType == STRUCTURE_EXTENSION ||
-									structure.structureType == STRUCTURE_SPAWN) &&
+									structure.structureType == STRUCTURE_CONTAINER) &&
 								structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
 							);
 						},
 					});
 					if (priorityTargets.length > 0) {
-					    var closest = creep.pos.findClosestByRange(priorityTargets);
-						if (
-							creep.transfer(closest, RESOURCE_ENERGY) ==
-							ERR_NOT_IN_RANGE
-						) {
+						var closest = creep.pos.findClosestByRange(priorityTargets);
+						if (creep.transfer(closest, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
 							creep.moveTo(closest, {
 								visualizePathStyle: { stroke: "#ffffff" },
 							});
@@ -48,12 +45,13 @@ var roleLDHarvester = {
 						var secondaryTargets = creep.room.find(FIND_STRUCTURES, {
 							filter: (structure) => {
 								return (
-									(structure.structureType == STRUCTURE_CONTAINER ||
+									(structure.structureType == STRUCTURE_SPAWN ||
 										structure.structureType == STRUCTURE_TOWER) &&
 									structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
 								);
 							},
 						});
+						console.log("hello");
 						//TODO: remove duplicates & speed up
 						if (secondaryTargets.length > 0) {
 							if (
@@ -66,9 +64,9 @@ var roleLDHarvester = {
 							}
 						} else {
 							// TODO: make better way to have harvester move away when it has nothing to do
-                            // FOr example upgrading ? Maybe not,,, LDHs are not fast enought upgrading
+							// FOr example upgrading ? Maybe not,,, LDHs are not fast enought upgrading
 							creep.say("😪");
-							creep.moveTo(41, 26);
+							creep.moveTo(22, 33);
 						}
 					}
 				} else {
