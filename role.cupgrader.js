@@ -17,13 +17,13 @@ var roleCUpgrader = {
 				});
 			}
 		} else {
-			if (creep.memory.home == "E23S52") {
+			if (creep.memory.home == "XXXXXX") {
 				var idContainer = creep.room.find(FIND_STRUCTURES, {
 					filter: (structure) => {
 						return (
-							structure.structureType == STRUCTURE_CONTAINER &&
-							structure.id == "6081dce411c37b6754174ec1" &&
-							structure.store.getFreeCapacity(RESOURCE_ENERGY) < 1950
+							(structure.structureType == STRUCTURE_CONTAINER &&
+							structure.id == "608c7b5e59886d67bdb7b148" &&
+							structure.store.getFreeCapacity(RESOURCE_ENERGY) < 1950)
 						); // UGLY way to fixt the chockepoint problem
 					},
 				});
@@ -43,7 +43,10 @@ var roleCUpgrader = {
 								creep.pos.inRangeTo(structure, 8)) ||
 							(structure.structureType == STRUCTURE_LINK &&
 								structure.energy > 49 &&
-								creep.pos.inRangeTo(structure, 3))
+								creep.pos.inRangeTo(structure, 3)) ||
+							(structure.structureType == STRUCTURE_CONTAINER &&
+							structure.id == "608c7b5e59886d67bdb7b148" &&
+							structure.store.getFreeCapacity(RESOURCE_ENERGY) < 1950 && creep.memory.home == "E23S52")
 						);
 					},
 				});

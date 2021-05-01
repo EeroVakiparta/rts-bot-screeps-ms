@@ -50,13 +50,13 @@ let roleArmy = {
         			let colsestTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     				let closestNonSpawn = creep.room.find(FIND_STRUCTURES, {
         					filter: (structure) => {
-        						return structure.structureType == STRUCTURE_WALL;
+        						return structure.structureType == STRUCTURE_SPAWN;
         					},
         				});
         			let closestNonSpawnClosest = creep.pos.findClosestByRange(closestNonSpawn);
         
-        			if (creep.attack(colsestTarget) == ERR_NOT_IN_RANGE || !functionalRangedAttackBody) {
-        				creep.moveTo(colsestTarget);
+        			if (creep.attack(closestNonSpawnClosest) == ERR_NOT_IN_RANGE || !functionalRangedAttackBody) {
+        				creep.moveTo(closestNonSpawnClosest);
         				//console.log(creep.attack(closestNonSpawnClosest))
         			} else if (meleeTargets.length > 0 && functionalMeleeAttackBody) {
         			    

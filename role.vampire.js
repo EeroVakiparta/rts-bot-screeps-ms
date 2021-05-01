@@ -9,28 +9,27 @@ var roleVampire = {
 
 		var closest = creep.pos.findClosestByRange(drops);
 
-		const tombs = creep.pos.findClosestByRange(FIND_RUINS);
-
+		const tombs = creep.pos.findClosestByRange(FIND_TOMBSTONES);
+        
 		if (
 			creep.memory.supplying &&
 			creep.store.getCapacity() == creep.store.getFreeCapacity()
 		) {
 			creep.memory.supplying = false;
 			creep.say("Feeding");
-			console.log("Feeding");
+			//console.log("Feeding");
 		}
-		console.log(!creep.memory.supplying && creep.store.getFreeCapacity() == 0);
 		if (!creep.memory.supplying && creep.store.getFreeCapacity() == 0) {
 			creep.memory.supplying = true;
 			creep.say("Returning");
-			console.log("Returning");
+			//console.log("Returning");
 		}
 		// TODO : make so that the hauler does not change target inbetween haul
 		if (creep.memory.supplying) {
-			console.log("etsii storagea");
+			
 			var storages = creep.room.find(FIND_STRUCTURES, {
 				filter: (structure) => {
-					return structure.structureType == STRUCTURE_CONTAINER; // UGLY way to fixt the chockepoint problem
+					return structure.structureType == STRUCTURE_STORAGE; // UGLY way to fixt the chockepoint problem
 				},
 			});
 			//console.log("storages[0]")
@@ -40,7 +39,7 @@ var roleVampire = {
 			}
 		} else {
 			if (tombs) {
-				if (creep.withdraw(tombs) == ERR_NOT_IN_RANGE) {
+				if (creep.withdraw(tombs, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
 					creep.moveTo(tombs, {
 						visualizePathStyle: { stroke: "#ffaa00" },
 					});
