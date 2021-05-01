@@ -27,7 +27,6 @@ var roleCHarvester = {
 			});
 
 			if (
-				creep.memory.sourceIndex == 0 ||
 				typeof priorityTargets[0] == "undefined"
 			) {
 				//creep.say("no link?")

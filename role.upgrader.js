@@ -32,12 +32,12 @@ var roleUpgrader = {
         					});
         				}
         				creep.withdraw(closest, RESOURCE_ENERGY);
-                  /*
+                  // tätä pitää korjaa, tässä sekasin konttia ja sourcee
                   var sources = creep.room.find(FIND_SOURCES);
                   if (creep.harvest(sources[creep.memory.sourceIndex]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[creep.memory.sourceIndex], { visualizePathStyle: { stroke: "#ffaa00" } });
                   }
-                  */
+                  
                 }
     
             }else{
