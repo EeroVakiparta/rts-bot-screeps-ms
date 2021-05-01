@@ -612,13 +612,51 @@ module.exports.loop = function () {
         var towers = Game.rooms[roomName].find(
                 FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
 		const targets = towers[0].room.find(FIND_STRUCTURES, {
-			filter: (object) => (object.hits < object.hitsMax && object.structureType != STRUCTURE_WALL),
+			filter: (object) => (object.hits < object.hitsMax && object.structureType != STRUCTURE_RAMPART && object.structureType != STRUCTURE_WALL),
 		});
 
 		targets.sort((a, b) => a.hits - b.hits);
 
 
-		if (targets.length > 0 && towers[0].store[RESOURCE_ENERGY] > 950) {
+		if (targets.length > 0 && towers[0].store[RESOURCE_ENERGY] > 900 && towers[1].store[RESOURCE_ENERGY] > 900) {
+
+				//const closestLowHP = towers[0].pos.findClosestByRange(targets);
+			//	towers.forEach(tower => tower.repair(closestLowHP));
+					towers.forEach(tower => tower.repair(targets[0]));
+			
+		}
+    }
+    
+        var hostiles3 = Game.rooms['E21S52'].find(FIND_HOSTILE_CREEPS);
+    if(hostiles3.length > 0){
+        underAttack3 = true;
+    }else {
+        underAttack3 = false;
+    }
+    
+        if(underAttack3) {
+        var roomName = 'E21S52';
+        var hostiles = Game.rooms[roomName].find(FIND_HOSTILE_CREEPS);
+        if(hostiles.length > 0) {
+            var username = hostiles[0].owner.username;
+            Game.notify(`User ${username} spotted in room ${roomName}`);
+            var towers = Game.rooms[roomName].find(
+                FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
+                
+            towers.forEach(tower => tower.attack(hostiles[0]));
+        }
+    }else{
+        var roomName = 'E23S52';
+        var towers = Game.rooms[roomName].find(
+                FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
+		const targets = towers[0].room.find(FIND_STRUCTURES, {
+			filter: (object) => (object.hits < object.hitsMax && object.structureType != STRUCTURE_RAMPART && object.structureType != STRUCTURE_WALL),
+		});
+
+		targets.sort((a, b) => a.hits - b.hits);
+
+
+		if (targets.length > 0 && towers[0].store[RESOURCE_ENERGY] > 900) {
 
 				//const closestLowHP = towers[0].pos.findClosestByRange(targets);
 			//	towers.forEach(tower => tower.repair(closestLowHP));
