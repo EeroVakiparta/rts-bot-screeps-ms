@@ -34,10 +34,77 @@ module.exports.loop = function () {
         }
     }
     
+    
+            /////////// SPAWN 3333333333333333333333333
+        var cHarvSpawn3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E21S52');
+            if(cHarvSpawn3.length < 1) {
+                var newName = 'CHarvester' + Game.time; // WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE
+                Game.spawns['Spawn3'].spawnCreep([WORK,CARRY,MOVE], newName,
+                    {memory: {role: 'charvester',
+                        home: 'E21S52',
+                        sourceIndex: 0
+                    }});
+        }
+        
+        var cHarvSpawn31 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 1 && creep.memory.home == 'E21S52');
+            if(cHarvSpawn31.length < 1) {
+                var newName = 'CHarvester' + Game.time;
+                Game.spawns['Spawn3'].spawnCreep([WORK,CARRY,MOVE], newName,
+                    {memory: {role: 'charvester',
+                        home: 'E21S52',
+                        sourceIndex: 1
+                    }});
+        }
+        
+        var buildersSpawn3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.source == 'container' && creep.memory.sourceIndex == 0 && creep.memory.targetFlag == 'Spawni3' );
+        if(buildersSpawn3.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+            var newName = 'Builder' + Game.time;
+            //console.log('Spawning new builder: ' + newName);
+            Game.spawns['Spawn3'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
+                {memory: {role: 'builder', source: 'container', sourceIndex: 0, targetFlag: 'Spawni3'}}); // container, source
+        }
+        
+        
+                var haulersspawn3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler' && creep.memory.home == 'E21S52');
+
+        if(haulersspawn3.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+            var newName = 'Hauler' + Game.time; // CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE
+            //console.log('Spawning new upgrader: ' + newName); 
+            Game.spawns['Spawn3'].spawnCreep([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'hauler', haulTarget : false, home: 'E21S52'}});
+        }
+        
+        var spawn3cupgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'cupgrader' && creep.memory.home == 'E21S52');
+        if(spawn3cupgraders.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+            var newName = 'CUpgrader' + Game.time; // WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE
+            Game.spawns['Spawn3'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'cupgrader', home: 'E21S52'}});
+        }
+        
+        var repairers3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer' && creep.memory.home == 'E21S52');
+        //console.log('Repairer: ' + repairers.length);
+
+        if(repairers3.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+            var newName = 'Repairer' + Game.time;
+            //console.log('Spawning new upgrader: ' + newName);
+            Game.spawns['Spawn3'].spawnCreep([WORK,CARRY,MOVE], newName,
+                {memory: {role: 'repairer', home: 'E21S52'}});
+        }
+    
+            // Harvester spawner  --- FOR SPAWN2
+        var harvestersSpawn3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.home == 'E21S52');
+        //console.log('Harvesters: ' + harvesters.length);
+        if(harvestersSpawn3.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+            var newName = 'Harvester' + Game.time;
+            //console.log('Spawning new harvester: ' + newName);
+            Game.spawns['Spawn3'].spawnCreep([CARRY,MOVE], newName,
+                {memory: {role: 'harvester', home: 'E21S52'}});
+        }
+    
 
     if(!underAttack){
         
-        /////////// START OF SPAWN ECO
+        /////////// START OF SPAWN  222222222222222222222 ECO
         var cHarvSpawn2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E23S52');
             if(cHarvSpawn2.length < 1) {
                 var newName = 'CHarvester' + Game.time;
