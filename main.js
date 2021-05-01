@@ -206,9 +206,37 @@ module.exports.loop = function () {
             Game.spawns['Spawn2'].spawnCreep([CARRY,MOVE], newName,
                 {memory: {role: 'vampire',supplying: false, home: 'E23S52'}});
         }
+        
+                /// MINERAL 222 MINER -- MINES ALWAYS TO STORAGE
+        var minerSpawn2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E23S52');
+        //console.log(cHarvesters1.length);
+        if(minerSpawn2.length < 1 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
+                
+            var newName = 'MinerSpawn2' + Game.time;
+            Game.spawns['Spawn2'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'miner',
+                    home: 'E23S52',
+                    sourceIndex: 0
+                }});
+        }
+        
+        var repairers2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer' && creep.memory.home == 'E23S52');
+        //console.log('Repairer: ' + repairers.length);
+
+        if(repairers2.length < 1 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
+            var newName = 'Repairer' + Game.time;
+            //console.log('Spawning new upgrader: ' + newName);
+            Game.spawns['Spawn2'].spawnCreep([WORK,CARRY,MOVE], newName,
+                {memory: {role: 'repairer', home: 'E23S52'}});
+        }
+        
+        
+        
+        
     /////////////////////////
         
         var cHarvesters0 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E24S53');
+        // WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE
             if(cHarvesters0.length < 1) {
                 var newName = 'CHarvester' + Game.time;
                 Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], newName,
