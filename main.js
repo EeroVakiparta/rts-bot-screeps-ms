@@ -169,16 +169,20 @@ module.exports.loop = function () {
         }
         
                 /// MINERAL 222 MINER -- MINES ALWAYS TO STORAGE
-        var minerSpawn2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E23S52');
-        //console.log(cHarvesters1.length);
-        if(minerSpawn2.length < 1 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
+        let spawn2Minerals = Game.rooms['E23S52'].find(FIND_MINERALS);
+        if(spawn2Minerals[0].mineralAmount > 0){   {     
                 
-            var newName = 'MinerSpawn2' + Game.time;
-            Game.spawns['Spawn2'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], newName,
-                {memory: {role: 'miner',
-                    home: 'E23S52',
-                    sourceIndex: 0
-                }});
+            var minerSpawn2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E23S52');
+            //console.log(cHarvesters1.length);
+            if(minerSpawn2.length < 1 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
+                    
+                var newName = 'MinerSpawn2' + Game.time;
+                Game.spawns['Spawn2'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], newName,
+                    {memory: {role: 'miner',
+                        home: 'E23S52',
+                        sourceIndex: 0
+                    }});
+            }
         }
         
         var repairers2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer' && creep.memory.home == 'E23S52');
@@ -414,9 +418,13 @@ module.exports.loop = function () {
         }
         
         /// MINERAL MINER -- MINES ALWAYS TO STORAGE
-        var minerSpawn1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E24S53');
+        
         //console.log(cHarvesters1.length);
-        if(minerSpawn1.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
+        let spawn1Minerals = Game.rooms['E24S53'].find(FIND_MINERALS);
+        if(spawn1Minerals[0].mineralAmount > 0){
+            //console.log("found minerals" + spawn1Minerals[0].mineralAmount)
+            var minerSpawn1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E24S53');
+            if(minerSpawn1.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
                 
             var newName = 'MinerSpawn1' + Game.time;
             Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], newName,
@@ -424,7 +432,9 @@ module.exports.loop = function () {
                     home: 'E24S53',
                     sourceIndex: 0
                 }});
+            }
         }
+
         
     }
 
