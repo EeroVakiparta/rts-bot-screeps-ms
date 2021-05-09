@@ -475,38 +475,36 @@ module.exports.loop = function () {
     }
     
     //-------------------- Sell to market order --------------------
-    let marketing = true;
     // Terminal trade execution
     // TODO make room specific
     let spawn1 = Game.spawns['Spawn1']; // 
-    if((spawn1.room.storage.store[RESOURCE_ENERGY] >= 2000 && spawn1.room.storage.store[RESOURCE_UTRIUM] >= 2000) || marketing){
-        if ((Game.time % 10 == 0)) {
-            if (spawn1.room.terminal.store[RESOURCE_ENERGY] >= 2000 && spawn1.room.terminal.store[RESOURCE_UTRIUM] >= 2000) {
-                console.log("We have enough stuff");
-                var orders = Game.market.getAllOrders(order => order.resourceType == RESOURCE_UTRIUM &&
-                                                      order.type == ORDER_BUY &&
-                                                      Game.market.calcTransactionCost(200, spawn1.room.name, order.roomName) < 400);
-                console.log('Utrium buy orders found: ' + orders.length);
-                orders.sort(function(a,b){return b.price - a.price;});
-                console.log('Best price: ' + orders[0].price);
-                if (orders[0].price > 0.7) {
-                    
-                    // Merchant Spawner if someone pays well prepare order
-                    var merchantsSpawn1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'merchant' && creep.memory.home == 'E24S53');
-                    if(merchantsSpawn1.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
-                        var newName = '1_Merhcant' + Game.time;
-                        Game.spawns['Spawn1'].spawnCreep([CARRY,MOVE], newName,
-                            {memory: {role: 'merchant', supplying : false, home: 'E24S53'}});
-                    }
-                    
-                    //var result = Game.market.deal(orders[0].id, 200, spawn1.room.name);
-                    if (result == 0) {
-                        console.log('Order completed successfully');
-                    }
+    if((spawn1.room.storage.store[RESOURCE_ENERGY] >= 2000 && spawn1.room.storage.store[RESOURCE_UTRIUM] >= 90000)){
+        
+        // Merchant Spawner if someone pays well prepare order
+        var merchantsSpawn1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'merchant' && creep.memory.home == 'E24S53');
+        if(merchantsSpawn1.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
+            var newName = '1_Merhcant' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([CARRY,MOVE], newName,
+                {memory: {role: 'merchant', supplying : false, home: 'E24S53'}});
+        }
+    }    
+    if ((Game.time % 50 == 0)) {
+        if (spawn1.room.terminal.store[RESOURCE_ENERGY] >= 400 && spawn1.room.terminal.store[RESOURCE_UTRIUM] >= 200) {
+            var orders = Game.market.getAllOrders(order => order.resourceType == RESOURCE_UTRIUM &&
+                                                  order.type == ORDER_BUY &&
+                                                  Game.market.calcTransactionCost(200, spawn1.room.name, order.roomName) < 400);
+            console.log('Utrium buy orders found: ' + orders.length);
+            orders.sort(function(a,b){return b.price - a.price;});
+            console.log('Best price: ' + orders[0].price);
+            if (orders[0].price >= 0.411) {
+                var result = Game.market.deal(orders[0].id, 200, spawn1.room.name);
+                if (result == 0) {
+                    console.log('Order completed successfully');
                 }
             }
         }
     }
+    
 
     //-------------------- View order on console --------------------
 

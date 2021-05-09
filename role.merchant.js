@@ -33,7 +33,7 @@ var roleMerchant = {
 		}
 		if (!creep.memory.supplying && creep.store.getFreeCapacity() == 0) {
 			creep.memory.supplying = true;
-			if (creep.ticksToLive < 20) {
+			if (creep.ticksToLive < 10) {
 				// TODO: adjust this to smalles small value
 				screen.suicide();
 				creep.say("I ded");
