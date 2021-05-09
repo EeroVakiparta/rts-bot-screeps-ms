@@ -25,7 +25,7 @@ var roleRepairer = {
 
 			if (creep.memory.repairing) {
 				const targets = creep.room.find(FIND_STRUCTURES, {
-					filter: (object) => object.hits < object.hitsMax && object.hits < 10000,
+					filter: (object) => object.hits < object.hitsMax && object.hits < 50000,
 				});
 
 				targets.sort((a, b) => a.hits - b.hits);

@@ -21,7 +21,7 @@ var roleCHarvester = {
 					return (
 						structure.structureType == STRUCTURE_LINK &&
 						structure.energyCapacity > structure.energy + 48 &&
-						creep.pos.inRangeTo(structure, 3)
+						creep.pos.inRangeTo(structure, 2)
 					);
 				},
 			});

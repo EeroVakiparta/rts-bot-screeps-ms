@@ -13,7 +13,7 @@ var roleHarvester = {
 								structure.store.getFreeCapacity(RESOURCE_ENERGY) < 1900)
 								|| (structure.structureType == STRUCTURE_CONTAINER &&
 								structure.store.getUsedCapacity > 49)) &&
-								structure.id !== '608c7b5e59886d67bdb7b148');
+								structure.id !== '60916bff41668439fd4370ed');
 					},
 				});
 				
@@ -37,7 +37,7 @@ var roleHarvester = {
 				});
 			    
 			    //Jos ei oo tärkeitä torneja niin sitte muihin
-			    if(priorityTargets.length == 0){
+			    if(priorityTargets.length == 0){   
     				priorityTargets = creep.room.find(FIND_STRUCTURES, {
 					filter: (structure) => {
 						return (

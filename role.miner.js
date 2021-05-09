@@ -35,6 +35,11 @@ var roleMiner = {
 					visualizePathStyle: { stroke: "#ffaa00" },
 				});
 			}
+			if (creep.transfer(priorityTargets[0], RESOURCE_ZYNTHIUM) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(priorityTargets[0], {
+					visualizePathStyle: { stroke: "#ffaa00" },
+				});
+			}
 		}
 	},
 };

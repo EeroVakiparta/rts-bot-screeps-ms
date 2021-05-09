@@ -13,6 +13,7 @@ var roleVampire = require('role.vampire')
 var roleTank = require('role.tank')
 var roleMiner = require('role.miner')
 
+
 var underAttack = false; // could be passed to creeps in memory?
 var underAttack2 = false;
 var underAttack3 = false;
@@ -32,23 +33,29 @@ module.exports.loop = function () {
             //console.log('Clearing non-existing creep memory:', name);
         }
     }
+    var cHarvesters0;
+    var cHarvesters1;
+    var cHarvSpawn2;
+    var cHarvSpawn21;
+    var cHarvSpawn3;
+    var cHarvSpawn31;
     
     
             /////////// SPAWN 3333333333333333333333333
-        var cHarvSpawn3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E21S52');
+        cHarvSpawn3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E21S52');
             if(cHarvSpawn3.length < 1) {
                 var newName = 'CHarvester' + Game.time; // WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE
-                Game.spawns['Spawn3'].spawnCreep([WORK,CARRY,MOVE], newName,
+                Game.spawns['Spawn3'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], newName,
                     {memory: {role: 'charvester',
                         home: 'E21S52',
                         sourceIndex: 0
                     }});
         }
         
-        var cHarvSpawn31 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 1 && creep.memory.home == 'E21S52');
+        cHarvSpawn31 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 1 && creep.memory.home == 'E21S52');
             if(cHarvSpawn31.length < 1) {
                 var newName = 'CHarvester' + Game.time;
-                Game.spawns['Spawn3'].spawnCreep([WORK,CARRY,MOVE], newName,
+                Game.spawns['Spawn3'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], newName,
                     {memory: {role: 'charvester',
                         home: 'E21S52',
                         sourceIndex: 1
@@ -56,10 +63,10 @@ module.exports.loop = function () {
         }
         
         var buildersSpawn3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.source == 'container' && creep.memory.sourceIndex == 0 && creep.memory.targetFlag == 'Spawni3' );
-        if(buildersSpawn3.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+        if(buildersSpawn3.length < 1  && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
             var newName = 'Builder' + Game.time;
             //console.log('Spawning new builder: ' + newName);
-            Game.spawns['Spawn3'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
+            Game.spawns['Spawn3'].spawnCreep([WORK,CARRY,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
                 {memory: {role: 'builder', source: 'container', sourceIndex: 0, targetFlag: 'Spawni3'}}); // container, source
         }
         
@@ -69,12 +76,12 @@ module.exports.loop = function () {
         if(haulersspawn3.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
             var newName = 'Hauler' + Game.time; // CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE
             //console.log('Spawning new upgrader: ' + newName); 
-            Game.spawns['Spawn3'].spawnCreep([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
+            Game.spawns['Spawn3'].spawnCreep([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'hauler', haulTarget : false, home: 'E21S52'}});
         }
         
         var spawn3cupgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'cupgrader' && creep.memory.home == 'E21S52');
-        if(spawn3cupgraders.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+        if(spawn3cupgraders.length < 3 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
             var newName = 'CUpgrader' + Game.time; // WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE
             Game.spawns['Spawn3'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'cupgrader', home: 'E21S52'}});
@@ -93,20 +100,46 @@ module.exports.loop = function () {
             // Harvester spawner  --- FOR SPAWN2
         var harvestersSpawn3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.home == 'E21S52');
         //console.log('Harvesters: ' + harvesters.length);
-        if(harvestersSpawn3.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+        if(harvestersSpawn3.length < 1 && (cHarvSpawn3.length > 0 || cHarvSpawn31.length > 0)) {
             var newName = 'Harvester' + Game.time;
             //console.log('Spawning new harvester: ' + newName);
             Game.spawns['Spawn3'].spawnCreep([CARRY,MOVE], newName,
                 {memory: {role: 'harvester', home: 'E21S52'}});
+        }
+        
+        var vampires3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'vampire' && creep.memory.home == 'E21S52');
+        if(vampires3.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+            var newName = 'Vampire3' + Game.time;
+            //console.log('Spawning new upgrader: ' + newName);
+            Game.spawns['Spawn3'].spawnCreep([CARRY,CARRY,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'vampire',supplying: false, home: 'E21S52'}});
+        }
+        
+                /// MINERAL MINER333 -- MINES ALWAYS TO STORAGE
+        
+        
+        let spawn3Minerals = Game.rooms['E21S52'].find(FIND_MINERALS);
+        if(spawn3Minerals[0].mineralAmount > 0){
+            var minerSpawn3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E21S52');
+            if(minerSpawn3.length < 1 && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0) {
+                
+            var newName = 'MinerSpawn3' + Game.time;
+            Game.spawns['Spawn3'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], newName,
+                {memory: {role: 'miner',
+                    home: 'E21S52',
+                    sourceIndex: 0
+                }});
+            }
         }
     
 
     if(!underAttack){
         
         /////////// START OF SPAWN  222222222222222222222 ECO
-        var cHarvSpawn2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E23S52');
+        cHarvSpawn2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E23S52');
             if(cHarvSpawn2.length < 1) {
                 var newName = 'CHarvester' + Game.time;
+                console.log(cHarvSpawn2.length)
                 Game.spawns['Spawn2'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], newName,
                     {memory: {role: 'charvester',
                         home: 'E23S52',
@@ -114,7 +147,7 @@ module.exports.loop = function () {
                     }});
         }
         
-        var cHarvSpawn21 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 1 && creep.memory.home == 'E23S52');
+        cHarvSpawn21 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 1 && creep.memory.home == 'E23S52');
             if(cHarvSpawn21.length < 1) {
                 var newName = 'CHarvester' + Game.time;
                 Game.spawns['Spawn2'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], newName,
@@ -125,17 +158,17 @@ module.exports.loop = function () {
         }
         
         var builders1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.source == 'container' && creep.memory.sourceIndex == 0 && creep.memory.targetFlag == 'flag1' );
-        if(builders1.length < 0 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
+        if(builders1.length < 1 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
             var newName = 'Builder' + Game.time;
             //console.log('Spawning new builder: ' + newName);
-            Game.spawns['Spawn2'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
+            Game.spawns['Spawn2'].spawnCreep([WORK,CARRY,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
                 {memory: {role: 'builder', source: 'container', sourceIndex: 0, targetFlag: 'flag1'}}); // container, source
         }
         
         var spawn2cupgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'cupgrader' && creep.memory.home == 'E23S52');
-        if(spawn2cupgraders.length < 2 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
+        if(spawn2cupgraders.length < 3 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
             var newName = 'CUpgrader' + Game.time; // WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE
-            Game.spawns['Spawn2'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
+            Game.spawns['Spawn2'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'cupgrader', home: 'E23S52'}});
         }
         
@@ -164,13 +197,13 @@ module.exports.loop = function () {
         if(vampires2.length < 1 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
             var newName = 'Vampire' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
-            Game.spawns['Spawn2'].spawnCreep([CARRY,MOVE], newName,
+            Game.spawns['Spawn2'].spawnCreep([CARRY,CARRY,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'vampire',supplying: false, home: 'E23S52'}});
         }
         
                 /// MINERAL 222 MINER -- MINES ALWAYS TO STORAGE
         let spawn2Minerals = Game.rooms['E23S52'].find(FIND_MINERALS);
-        if(spawn2Minerals[0].mineralAmount > 0){   {     
+        if(spawn2Minerals[0].mineralAmount > 0){        
                 
             var minerSpawn2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E23S52');
             //console.log(cHarvesters1.length);
@@ -188,7 +221,7 @@ module.exports.loop = function () {
         var repairers2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer' && creep.memory.home == 'E23S52');
         //console.log('Repairer: ' + repairers.length);
 
-        if(repairers2.length < 1 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
+        if(repairers2.length < 2 && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0) {
             var newName = 'Repairer' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
             Game.spawns['Spawn2'].spawnCreep([WORK,CARRY,MOVE], newName,
@@ -200,10 +233,10 @@ module.exports.loop = function () {
         
     /////////////////////////
         
-        var cHarvesters0 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E24S53');
+        cHarvesters0 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 0 && creep.memory.home == 'E24S53');
         // WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE
             if(cHarvesters0.length < 1) {
-                var newName = 'CHarvester' + Game.time;
+                var newName = 'CHarvester' + Game.time; // WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE
                 Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], newName,
                     {memory: {role: 'charvester',
                         home: 'E24S53',
@@ -211,7 +244,7 @@ module.exports.loop = function () {
                     }});
         }
         
-        var cHarvesters1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 1 && creep.memory.home == 'E24S53');
+        cHarvesters1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'charvester' && creep.memory.sourceIndex == 1 && creep.memory.home == 'E24S53');
         //console.log(cHarvesters1.length);
             if(cHarvesters1.length < 1) {
                 
@@ -227,7 +260,7 @@ module.exports.loop = function () {
                 
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.home == 'E24S53');
         //console.log('Harvesters: ' + harvesters.length);
-        if(harvesters.length < 4) {
+        if(harvesters.length < 3 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'Harvester' + Game.time;
             //console.log('Spawning new harvester: ' + newName);
             Game.spawns['Spawn1'].spawnCreep([CARRY,MOVE], newName,
@@ -239,7 +272,7 @@ module.exports.loop = function () {
         if (cHarvesters0.length > 0 && cHarvesters1.length > 0){
             // LongDistance Harvester spawner
             var ldharvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldharvester' && creep.memory.target == 'E23S52');
-            if(ldharvesters.length < 1) {
+            if(ldharvesters.length < 0 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
                 var newName = 'LDHarvester' + Game.time;
                 Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
                     {memory: {role: 'ldharvester',
@@ -251,7 +284,7 @@ module.exports.loop = function () {
             
                     // LongDistance Harvester spawner
             var ldharvesters2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldharvester' && creep.memory.target == 'E21S52');
-            if(ldharvesters2.length < 0) {
+            if(ldharvesters2.length < 0 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
                 var newName = 'LDHarvester' + Game.time;
                 Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
                     {memory: {role: 'ldharvester',
@@ -263,8 +296,8 @@ module.exports.loop = function () {
             
                     // LongDistance Harvester spawner
             var ldharvesters3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'ldharvester' && creep.memory.target == 'E23S53' );
-            console.log(ldharvesters3.length)
-            if(ldharvesters3.length < 1) {
+            //console.log(ldharvesters3.length)
+            if(ldharvesters3.length < 0 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
                 var newName = 'LDHarvester' + Game.time;
                 Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
                     {memory: {role: 'ldharvester',
@@ -312,14 +345,14 @@ module.exports.loop = function () {
         
         // Builder spawner ------------------------ THIS IS THE SPAWN ! BUILDER
         // --Make sure there is at least 1 builder at all times
-        var builders0 = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.source == 'sources' && creep.memory.sourceIndex == 0 && creep.memory.targetFlag == "homeBase");
-        console.log('Builders0: ' + builders0.length);
+        var builders0 = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.source == 'container' && creep.memory.sourceIndex == 0 && creep.memory.targetFlag == "homeBase");
+        //console.log('Builders0: ' + builders0.length);
 
-        if(builders0.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
+        if(builders0.length < 0 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'Builder' + Game.time;
             //console.log('Spawning new builder: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
-                {memory: {role: 'builder', source: 'sources', sourceIndex: 0, targetFlag: 'homeBase'}}); // container, source
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
+                {memory: {role: 'builder', source: 'container', sourceIndex: 0, targetFlag: 'homeBase'}}); // container, source
         }
         
                 // Builder spawner
@@ -328,13 +361,13 @@ module.exports.loop = function () {
         
                 // Builder spawner
         // --Make sure there is at least 1 builder at all times
-        var buildersC = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.source == 'container' );
+        var buildersC = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.source == 'container' &&  creep.memory.targetFlag == 'homeBase');
         //console.log('Builders: ' + builders.length);
 
         if(buildersC.length < 0 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'CBuilder' + Game.time;
             //console.log('Spawning new builder: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
+            Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
                 {memory: {role: 'builder',source: 'container', sourceIndex: 1, targetFlag: 'homeBase'}}); // container, source
         }
         
@@ -356,7 +389,7 @@ module.exports.loop = function () {
         var flagUpgraders0 = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.memory.targetFlag == 'upgradeThis' && creep.memory.sourceIndex == 0);
         //console.log('Upgrader: ' + upgraders.length);
 
-        if(flagUpgraders0.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
+        if(flagUpgraders0.length < 0 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'FlagUpgrader' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
             Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
@@ -368,7 +401,7 @@ module.exports.loop = function () {
         var flagUpgraders1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.memory.targetFlag == 'upgradeThis' && creep.memory.sourceIndex == 1);
         //console.log('flagUpgraders1: ' + flagUpgraders1.length);
 
-        if(flagUpgraders1.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
+        if(flagUpgraders1.length < 0 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'FlagUpgrader' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
             Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
@@ -389,7 +422,7 @@ module.exports.loop = function () {
         var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer' && creep.memory.home == 'E24S53');
         //console.log('Repairer: ' + repairers.length);
 
-        if(repairers.length < 1) {
+        if(repairers.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'Repairer' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
             Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
@@ -399,10 +432,10 @@ module.exports.loop = function () {
         var vampires = _.filter(Game.creeps, (creep) => creep.memory.role == 'vampire' && creep.memory.home == 'E24S53');
         
 
-        if(vampires.length < 1) {
+        if(vampires.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'Vampire' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([CARRY,MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([CARRY,CARRY,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'vampire',supplying: false, home: 'E24S53'}});
         }
         
@@ -410,10 +443,10 @@ module.exports.loop = function () {
         // Hauler spawner
         var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler' && creep.memory.home == 'E24S53');
 
-        if(haulers.length < 3 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
+        if(haulers.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'Hauler' + Game.time;
             //console.log('Spawning new upgrader: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([CARRY,MOVE], newName,
+            Game.spawns['Spawn1'].spawnCreep([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
                 {memory: {role: 'hauler', haulTarget : false, home: 'E24S53'}});
         }
         
@@ -541,7 +574,7 @@ module.exports.loop = function () {
 		targets.sort((a, b) => a.hits - b.hits);
 
 
-		if (targets.length > 0 && towers[0].store[RESOURCE_ENERGY] > 500 && towers[1].store[RESOURCE_ENERGY] > 500) {
+		if (targets.length > 0 && towers[0].store[RESOURCE_ENERGY] > 9999 && towers[1].store[RESOURCE_ENERGY] > 9999) {
 
 				//const closestLowHP = towers[0].pos.findClosestByRange(targets);
 			//	towers.forEach(tower => tower.repair(closestLowHP));
@@ -580,7 +613,7 @@ module.exports.loop = function () {
 		targets.sort((a, b) => a.hits - b.hits);
 
 
-		if (targets.length > 0 && towers[0].store[RESOURCE_ENERGY] > 900 && towers[1].store[RESOURCE_ENERGY] > 900) {
+		if (targets.length > 0 && towers[0].store[RESOURCE_ENERGY] > 9999 && towers[1].store[RESOURCE_ENERGY] > 9999) {
 
 				//const closestLowHP = towers[0].pos.findClosestByRange(targets);
 			//	towers.forEach(tower => tower.repair(closestLowHP));
@@ -608,17 +641,17 @@ module.exports.loop = function () {
             towers.forEach(tower => tower.attack(hostiles[0]));
         }
     }else{
-        var roomName = 'E23S52';
+        var roomName = 'E21S52';
         var towers = Game.rooms[roomName].find(
                 FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
-		const targets = towers[0].room.find(FIND_STRUCTURES, {
+		const targets = towers[0].room.find(FIND_STRUCTURES, { // TODO WHAT IF USE TOWER REPAIR AS LAST RESORT ( LIKE WHEN HP IS UNDE 2000)
 			filter: (object) => (object.hits < object.hitsMax && object.structureType != STRUCTURE_RAMPART && object.structureType != STRUCTURE_WALL),
 		});
 
 		targets.sort((a, b) => a.hits - b.hits);
 
 
-		if (targets.length > 0 && towers[0].store[RESOURCE_ENERGY] > 900) {
+		if (targets.length > 0 && towers[0].store[RESOURCE_ENERGY] > 9999 && towers[1].store[RESOURCE_ENERGY] > 9999) {
 
 				//const closestLowHP = towers[0].pos.findClosestByRange(targets);
 			//	towers.forEach(tower => tower.repair(closestLowHP));
@@ -642,9 +675,10 @@ module.exports.loop = function () {
    //ota linkint
    var energylinks = Game.rooms['E24S53'].find(
                 FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_LINK}});
+     
     
     //kato kummassa enemmän
-    if(energylinks){
+    if(energylinks && cHarvesters0.length > 0 && cHarvesters1.length > 0){
         if(energylinks[0].energy > 149 && energylinks[1].energy < 500){
             energylinks[0].transferEnergy(energylinks[1])
         }
@@ -657,9 +691,22 @@ module.exports.loop = function () {
                 FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_LINK}});
     
     //kato kummassa enemmän
-    if(energylinks){
-        if(energylinks[0].energy > 199 && energylinks[1].energy < 600){
+    if(energylinks && cHarvSpawn2.length > 0 && cHarvSpawn21.length > 0){
+        if(energylinks[0].energy > 149 && energylinks[1].energy < 500){
             energylinks[0].transferEnergy(energylinks[1])
+        }
+       if(energylinks[2].energy > 149 && energylinks[1].energy < 500){
+            energylinks[2].transferEnergy(energylinks[1])
+        }
+    }
+    
+   var energylinks = Game.rooms['E21S52'].find(
+                FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_LINK}});
+    
+    //kato kummassa enemmän
+    if(energylinks && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0){
+        if(energylinks[1].energy > 199 && energylinks[0].energy < 600){
+            energylinks[1].transferEnergy(energylinks[0])
         }
     }
     

@@ -53,7 +53,7 @@ var roleBuilder = {
         				var containers = creep.room.find(FIND_STRUCTURES, {
         					filter: (structure) => {
         						return ((structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 49) &&
-								structure.id !== '608c6d94f343dc720d6835dc');
+								structure.id !== '60916bff41668439fd4370ed');
         					},
         				});
         				var closest = creep.pos.findClosestByRange(containers);

@@ -22,7 +22,7 @@ var roleCUpgrader = {
 					filter: (structure) => {
 						return (
 							(structure.structureType == STRUCTURE_CONTAINER &&
-							structure.id == "608c7b5e59886d67bdb7b148" &&
+							structure.id == "60916bff41668439fd4370ed" &&
 							structure.store.getFreeCapacity(RESOURCE_ENERGY) < 1950)
 						); // UGLY way to fixt the chockepoint problem
 					},
@@ -45,7 +45,7 @@ var roleCUpgrader = {
 								structure.energy > 49 &&
 								creep.pos.inRangeTo(structure, 3)) ||
 							(structure.structureType == STRUCTURE_CONTAINER &&
-							structure.id == "608c7b5e59886d67bdb7b148" &&
+							structure.id == "60916bff41668439fd4370ed" &&
 							structure.store.getFreeCapacity(RESOURCE_ENERGY) < 1950 && creep.memory.home == "E23S52")
 						);
 					},
