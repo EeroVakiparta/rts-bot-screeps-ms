@@ -1,12 +1,14 @@
 var roleMerchant = {
 	/** @param {Creep} creep **/
 	run: function (creep) {
+	    
+	    ///////// FIRST FIGURE OUT TERMINAL AND STORAGE ///////////
 		let terminalById;
 		let storageById;
-
+        
 		if (creep.memory.terminalId && creep.memory.storageId) {
-			terminalById = Game.getObjectByiD(creep.memory.terminalId);
-			storageById = Game.getObjectByiD(creep.memory.storageId);
+			terminalById = Game.getObjectById(creep.memory.terminalId);
+			storageById = Game.getObjectById(creep.memory.storageId);
 		} else {
 			var terminal = creep.room.find(FIND_STRUCTURES, {
 				filter: (structure) => {
@@ -22,12 +24,14 @@ var roleMerchant = {
 			});
 			creep.memory.storageId = storage[0].id;
 		}
-
-		if (creep.memory.supplying && creep.carryCapacity == _.sum(creep.carry)) {
+		
+        ///////// DECIDE IF WE ARE DELIVERING OR FETCHING RESOURCES ///////////
+        
+		if (creep.memory.supplying && creep.store.getCapacity() == creep.store.getFreeCapacity()) {
 			creep.memory.supplying = false;
 			creep.say("getting");
 		}
-		if (!creep.memory.supplying && 0 == _.sum(creep.carry)) {
+		if (!creep.memory.supplying && creep.store.getFreeCapacity() == 0) {
 			creep.memory.supplying = true;
 			if (creep.ticksToLive < 20) {
 				// TODO: adjust this to smalles small value
@@ -36,6 +40,8 @@ var roleMerchant = {
 			}
 			creep.say("$");
 		}
+		
+		///////// ACTIONS  ///////////
 		if (creep.memory.supplying) {
 			// Find rooms terminal
 
@@ -53,7 +59,7 @@ var roleMerchant = {
 
 			// Decide what resource to take from storage to terminal
 			// TODO: there must be a better way, maybe when done with orders?
-			if (terminalById.store[RESOURCE_ENERGY < 2000]) {
+			if (terminalById.store[RESOURCE_ENERGY] < 2000) {
 				creep.memory.resourceTypeSupplied = RESOURCE_ENERGY;
 			} else if (terminalById.store[RESOURCE_UTRIUM] < 2000) {
 				creep.memory.resourceTypeSupplied = RESOURCE_UTRIUM;
@@ -76,7 +82,7 @@ var roleMerchant = {
 					creep.moveTo(15, 41);
 				} else {
 					creep.say("😪");
-					creep.moveTo(42, 27);
+					creep.moveTo(31, 19);
 				}
 			}
 		}
