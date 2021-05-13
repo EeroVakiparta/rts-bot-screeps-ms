@@ -12,6 +12,7 @@ var roleClaim = require('role.claim')
 var roleVampire = require('role.vampire')
 var roleTank = require('role.tank')
 var roleMiner = require('role.miner')
+var roleMerchant = require('role.merchant')
 
 
 var underAttack = false; // could be passed to creeps in memory?
@@ -260,7 +261,7 @@ module.exports.loop = function () {
                 
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.home == 'E24S53');
         //console.log('Harvesters: ' + harvesters.length);
-        if(harvesters.length < 3 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
+        if(harvesters.length < 2 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'Harvester' + Game.time;
             //console.log('Spawning new harvester: ' + newName);
             Game.spawns['Spawn1'].spawnCreep([CARRY,MOVE], newName,
@@ -364,7 +365,7 @@ module.exports.loop = function () {
         var buildersC = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.source == 'container' &&  creep.memory.targetFlag == 'homeBase');
         //console.log('Builders: ' + builders.length);
 
-        if(buildersC.length < 0 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
+        if(buildersC.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
             var newName = 'CBuilder' + Game.time;
             //console.log('Spawning new builder: ' + newName);
             Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, // WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE
@@ -467,9 +468,47 @@ module.exports.loop = function () {
                 }});
             }
         }
+        
+
 
         
     }
+    
+    //-------------------- Sell to market order --------------------
+    // Terminal trade execution
+    // TODO make room specific
+    let spawn1 = Game.spawns['Spawn1']; // 
+    if((spawn1.room.storage.store[RESOURCE_ENERGY] >= 2000 && spawn1.room.storage.store[RESOURCE_UTRIUM] >= 90000)){
+        
+        // Merchant Spawner if someone pays well prepare order
+        var merchantsSpawn1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'merchant' && creep.memory.home == 'E24S53');
+        if(merchantsSpawn1.length < 1 && cHarvesters0.length > 0 && cHarvesters1.length > 0) {
+            var newName = '1_Merhcant' + Game.time;
+            Game.spawns['Spawn1'].spawnCreep([CARRY,MOVE], newName,
+                {memory: {role: 'merchant', supplying : false, home: 'E24S53'}});
+        }
+    }    
+    if ((Game.time % 50 == 0)) {
+        if (spawn1.room.terminal.store[RESOURCE_ENERGY] >= 400 && spawn1.room.terminal.store[RESOURCE_UTRIUM] >= 200) {
+            var orders = Game.market.getAllOrders(order => order.resourceType == RESOURCE_UTRIUM &&
+                                                  order.type == ORDER_BUY &&
+                                                  Game.market.calcTransactionCost(200, spawn1.room.name, order.roomName) < 400);
+            console.log('Utrium buy orders found: ' + orders.length);
+            orders.sort(function(a,b){return b.price - a.price;});
+            console.log('Best price: ' + orders[0].price);
+            if (orders[0].price >= 0.411) {
+                var result = Game.market.deal(orders[0].id, 200, spawn1.room.name);
+                if (result == 0) {
+                    console.log('Order completed successfully');
+                }
+            }
+        }
+    }
+    
+
+    //-------------------- View order on console --------------------
+
+    // JSON.stringify(Game.market.getAllOrders(order => order.resourceType == RESOURCE_UTRIUM && order.type == ORDER_SELL && Game.market.calcTransactionCost(200, 'E24S53', order.roomName) < 500));
 
     // Army spawner
     // --Make defender when under attack
@@ -758,6 +797,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'miner') {
             roleMiner.run(creep);
+        }
+        if(creep.memory.role == 'merchant') {
+            roleMerchant.run(creep);
         }
     }
 }
