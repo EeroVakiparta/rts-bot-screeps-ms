@@ -3,8 +3,15 @@ let roleArmy = {
 	run: function (creep) {
 	    
         let flag = Game.flags[creep.memory.targetFlag];
+        let meleeAttackBodies = _.filter(
+        				creep.body,
+        				(body) => body.type == ATTACK
+			);
+			
         if(flag){
             if(creep.room == flag.room){
+                
+
                 //console.log("army guy in flag room")
         		// Two ideas :
         		// 1. To have army creep which has a attack slot at last spot, so it could fight untill last breath.
@@ -16,10 +23,7 @@ let roleArmy = {
         		    //console.log(enemies.length)
         			// TODO: refactor following
         			// TODO: make an enemy creeps observations
-        			let meleeAttackBodies = _.filter(
-        				creep.body,
-        				(body) => body.type == ATTACK
-        			);
+ 
         			let rangedAttackBodies = _.filter(
         				creep.body,
         				(body) => body.type == RANGED_ATTACK
@@ -50,7 +54,7 @@ let roleArmy = {
         			let colsestTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     				let closestNonSpawn = creep.room.find(FIND_STRUCTURES, {
         					filter: (structure) => {
-        						return structure.structureType == STRUCTURE_SPAWN;
+        						return structure.structureType == STRUCTURE_INVADER_CORE;
         					},
         				});
         			let closestNonSpawnClosest = creep.pos.findClosestByRange(closestNonSpawn);
@@ -86,7 +90,14 @@ let roleArmy = {
     		        //console.log("nobody to attack")
     		        creep.moveTo(flag, {visualizePathStyle: {stroke: '#cc00cc'}});
     		    }
-		    }else{
+		        }else if(creep.memory.iAmBoosted == false){
+    		        creep.moveTo(31,16); //TODO: MAKE THIS BETTER DEAR GOD
+  
+    		        if(meleeAttackBodies[0].boost){
+    		            creep.memory.iAmBoosted = true;
+    		            console.log("I HAVE THE POWER")
+    		        }
+    		    }else{
 		        //console.log("moving to flag room" + flag)
 		        creep.moveTo(flag, {visualizePathStyle: {stroke: '#cc00cc'}});
 		    }

@@ -23,11 +23,16 @@ var roleHauler = {
                     }
                 });
                 
-                
-               if(creep.transfer(idContainer[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                if(idContainer.getFreeCapacity < 500){
+                    if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(creep.room.storage);
+                    }
+                }else{
+                    if(creep.transfer(idContainer[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(idContainer[0]);
-                    
-               }
+                    }
+                }
+
             }else{
                             var  containers = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
@@ -81,6 +86,9 @@ var roleHauler = {
                 }else if(creep.memory.home == 'E21S52'){
                     	creep.say("😪");
 					creep.moveTo(15,41);
+                }else if(creep.memory.home == 'E21S53'){
+                    	creep.say("😪");
+					creep.moveTo(34,22);
                 }else{
                     	creep.say("😪");
 					creep.moveTo(42,27);

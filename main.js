@@ -744,12 +744,40 @@ module.exports.loop = function () {
     
     //kato kummassa enemmän
     if(energylinks && cHarvSpawn3.length > 0 && cHarvSpawn31.length > 0){
-        if(energylinks[1].energy > 199 && energylinks[0].energy < 600){
+        if(energylinks[1].energy > 149 && energylinks[0].energy < 500){
             energylinks[1].transferEnergy(energylinks[0])
+        }
+        if(energylinks[2].energy > 149 && energylinks[0].energy < 500){
+            energylinks[2].transferEnergy(energylinks[0])
         }
     }
     
-   
+    ////////////  LAB AND BOOS CODE ///////////
+    if(spawn1.room.terminal.store[RESOURCE_HYDROGEN] < 3000){
+        Game.rooms['E23S52'].terminal.send(RESOURCE_HYDROGEN, 3000, 'E24S53',
+        'Hydrogen transfer');
+    }
+
+    
+    
+    var labs = Game.rooms['E24S53'].find(FIND_MY_STRUCTURES, 
+    {filter: {structureType: STRUCTURE_LAB}});
+    var toBeBoostedArmyCreeps = _.filter(Game.creeps, (creep) => creep.memory.role == 'army'  && creep.memory.iAmBoosted == false); //TODO: figure a way to do this correctly
+    
+    if(labs[1].cooldown == 0 && toBeBoostedArmyCreeps.length == 0){
+        labs[1].runReaction(labs[0], labs[2]);
+    }
+    
+    
+   // console.log(labs[0].mineralType) // U
+   // console.log(labs[1].mineralType) // UH
+   // console.log(labs[2].mineralType) // H
+    
+    
+    if(toBeBoostedArmyCreeps.length > 0){
+        toBeBoostedArmyCreeps.forEach(armycreep => labs[1].boostCreep(armycreep));
+    }
+    //console.log("Fresh army count: " + toBeBoostedArmyCreeps.length) 
 
 
     

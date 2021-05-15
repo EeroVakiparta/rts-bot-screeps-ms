@@ -15,7 +15,7 @@ var roleAlchemist = {
 			filter: (structure) => {
 				return (
 					structure.structureType == STRUCTURE_LAB &&
-					structure.store[RESOURCE_UTRIUM] < 500 &&
+					structure.store[RESOURCE_UTRIUM] < 2750 &&
 					structure.id == "608ee4e22ba9ac7214cc32fc"
 				);
 			},
@@ -24,7 +24,7 @@ var roleAlchemist = {
 			filter: (structure) => {
 				return (
 					structure.structureType == STRUCTURE_LAB &&
-					structure.store[RESOURCE_HYDROGEN] < 500 &&
+					structure.store[RESOURCE_HYDROGEN] < 2750 &&
 					structure.id == "608fb6ade0fde32927855f37"
 				);
 			},
@@ -49,8 +49,8 @@ var roleAlchemist = {
 				labByIdToSupply = 0;
 				console.log("Alchemist chilling.");
 		}
-
-		creep.say(creep.memory.resourceTypeSupplied);
+		
+        creep.say(creep.memory.resourceTypeSupplied);
 		if (
 			creep.memory.supplying &&
 			creep.store.getCapacity() == creep.store.getFreeCapacity()
@@ -60,29 +60,25 @@ var roleAlchemist = {
 		if (!creep.memory.supplying && creep.store.getFreeCapacity() == 0) {
 			creep.memory.supplying = true;
 		}
-
+        
 		if (creep.memory.supplying) {
 			if (
-				creep.transfer(labByIdToSupply, creep.memory.resourceTypeSupplied) ==
-				ERR_NOT_IN_RANGE
+				creep.transfer(labByIdToSupply, creep.memory.resourceTypeSupplied) ==	ERR_NOT_IN_RANGE
 			) {
 				creep.moveTo(labByIdToSupply);
 			}
+
 		} else {
 			var storageToWithdrawFrom = creep.room.find(FIND_STRUCTURES, {
 				filter: (structure) => {
-					return (
-						structure.structureType == STRUCTURE_STORAGE &&
-						structure.store[creep.memory.resourceTypeSupplied] > 250
-					); // TODO: do some fancy thing here when not in hurry
+					return (structure.structureType == STRUCTURE_STORAGE || structure.structureType == STRUCTURE_TERMINAL) &&
+                    structure.store[creep.memory.resourceTypeSupplied] > 250; // TODO: do some fancy thing here when not in hurry
 				},
 			});
 			if (storageToWithdrawFrom.length > 0) {
 				if (
-					creep.withdraw(
-						storageToWithdrawFrom[0],
-						creep.memory.resourceTypeSupplied
-					) == ERR_NOT_IN_RANGE
+					creep.withdraw(storageToWithdrawFrom[0], creep.memory.resourceTypeSupplied) ==
+					ERR_NOT_IN_RANGE
 				) {
 					creep.moveTo(storageToWithdrawFrom[0]);
 				}
@@ -98,7 +94,7 @@ var roleAlchemist = {
 					creep.moveTo(34, 22);
 				} else {
 					creep.say("😪");
-					creep.moveTo(42, 27);
+					creep.moveTo(31, 19);
 				}
 			}
 		}
