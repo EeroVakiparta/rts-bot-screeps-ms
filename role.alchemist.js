@@ -6,8 +6,8 @@ var roleAlchemist = {
 		var labsInNeedOfEnergy = creep.room.find(FIND_STRUCTURES, {
 			filter: (structure) => {
 				return (
-					(structure.structureType == STRUCTURE_LAB || structure.structureType == STRUCTURE_TERMINAL) &&
-					structure.store[RESOURCE_ENERGY] < 5000
+					structure.structureType == STRUCTURE_LAB &&
+					structure.store[RESOURCE_ENERGY] < 1750
 				);
 			},
 		});
@@ -29,28 +29,28 @@ var roleAlchemist = {
 				);
 			},
 		});
-
 		switch (true) {
-			case labsInNeedOfEnergy:
+			case labsInNeedOfEnergy.length > 0:
 				creep.memory.resourceTypeSupplied = RESOURCE_ENERGY;
 				labsInNeedOfEnergy.sort(
 					(a, b) => a.store[RESOURCE_ENERGY] - b.store[RESOURCE_ENERGY]
 				);
-				labByIdToSupply = labsInNeedOfEnergy[0].id;
+				labByIdToSupply = labsInNeedOfEnergy[0];
 				break;
-			case labsInNeedOfUtrium:
+			case labsInNeedOfUtrium.length > 0:
 				creep.memory.resourceTypeSupplied = RESOURCE_UTRIUM;
-				labByIdToSupply = labsInNeedOfUtrium[0].id;
+				labByIdToSupply = labsInNeedOfUtrium[0];
 				break;
-			case labsInNeedOfHydrogen:
+			case labsInNeedOfHydrogen.length > 0:
 				creep.memory.resourceTypeSupplied = RESOURCE_HYDROGEN;
-				labByIdToSupply = labsInNeedOfHydrogen[0].id;
+				labByIdToSupply = labsInNeedOfHydrogen[0];
 				break;
 			default:
 				labByIdToSupply = 0;
 				console.log("Alchemist chilling.");
 		}
-        creep.say(creep.memory.resourceTypeSupplied);
+
+		creep.say(creep.memory.resourceTypeSupplied);
 		if (
 			creep.memory.supplying &&
 			creep.store.getCapacity() == creep.store.getFreeCapacity()
@@ -63,7 +63,7 @@ var roleAlchemist = {
 
 		if (creep.memory.supplying) {
 			if (
-				creep.transfer(labByIdToSupply, resourceTypeSupplied) ==
+				creep.transfer(labByIdToSupply, creep.memory.resourceTypeSupplied) ==
 				ERR_NOT_IN_RANGE
 			) {
 				creep.moveTo(labByIdToSupply);
@@ -71,14 +71,18 @@ var roleAlchemist = {
 		} else {
 			var storageToWithdrawFrom = creep.room.find(FIND_STRUCTURES, {
 				filter: (structure) => {
-					return structure.structureType == STRUCTURE_STORAGE &&
-                    structure.store[resourceTypeSupplied] > 250; // TODO: do some fancy thing here when not in hurry
+					return (
+						structure.structureType == STRUCTURE_STORAGE &&
+						structure.store[creep.memory.resourceTypeSupplied] > 250
+					); // TODO: do some fancy thing here when not in hurry
 				},
 			});
 			if (storageToWithdrawFrom.length > 0) {
 				if (
-					creep.withdraw(storageToWithdrawFrom[0], resourceTypeSupplied) ==
-					ERR_NOT_IN_RANGE
+					creep.withdraw(
+						storageToWithdrawFrom[0],
+						creep.memory.resourceTypeSupplied
+					) == ERR_NOT_IN_RANGE
 				) {
 					creep.moveTo(storageToWithdrawFrom[0]);
 				}
