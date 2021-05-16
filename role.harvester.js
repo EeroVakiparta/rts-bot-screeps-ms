@@ -13,7 +13,7 @@ var roleHarvester = {
 								structure.store.getFreeCapacity(RESOURCE_ENERGY) < 1900)
 								|| (structure.structureType == STRUCTURE_CONTAINER &&
 								structure.store.getUsedCapacity > 49)) &&
-								structure.id !== '60916bff41668439fd4370ed');
+								structure.id !== '60a0e5431d1f9bc16e096a8d');
 					},
 				});
 				
@@ -66,6 +66,9 @@ var roleHarvester = {
 					}else if(creep.memory.home == 'E21S52'){
 					    						creep.say("😪");
 						creep.moveTo(18,46);
+					}else if(creep.memory.home == 'E21S53'){
+					    						creep.say("😪");
+						creep.moveTo(29,20);
 					}else{
 					    						creep.say("😪");
 						creep.moveTo(43, 26);

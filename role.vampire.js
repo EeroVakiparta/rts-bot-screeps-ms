@@ -58,6 +58,15 @@ var roleVampire = {
 			if (creep.transfer(storages[0], RESOURCE_CATALYST) == ERR_NOT_IN_RANGE) {
 				creep.moveTo(storages[0]);
 			}
+			if (creep.transfer(storages[0], RESOURCE_UTRIUM_HYDRIDE) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(storages[0]);
+			}
+			if (creep.transfer(storages[0], RESOURCE_GHODIUM_HYDRIDE) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(storages[0]);
+			}
+			if (creep.transfer(storages[0], RESOURCE_GHODIUM_OXIDE) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(storages[0]);
+			}
 		} else {
 			if (tombs) {
 				if (creep.withdraw(tombs, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {

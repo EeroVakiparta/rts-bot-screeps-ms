@@ -19,7 +19,7 @@ var roleHauler = {
               var  idContainer = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_CONTAINER &&
-								structure.id == '60916bff41668439fd4370ed'); // UGLY way to fixt the chockepoint problem
+								structure.id == '60a0e5431d1f9bc16e096a8d'); // UGLY way to fixt the chockepoint problem
                     }
                 });
                 
@@ -63,7 +63,7 @@ var roleHauler = {
                 filter: (structure) => {
                     return ((((structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 1000) || 
                     structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] > 100)) &&
-								structure.id !== '60916bff41668439fd4370ed');
+								structure.id !== '60a0e5431d1f9bc16e096a8d');
                 }
             }); 
             

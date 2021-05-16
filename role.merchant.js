@@ -79,7 +79,7 @@ var roleMerchant = {
     			} else {
     				if (creep.memory.home == "E23S52") {
     					creep.say("😪");
-    					creep.moveTo(39, 46);
+    					creep.moveTo(27,36);
     				} else if (creep.memory.home == "E21S52") {
     					creep.say("😪");
     					creep.moveTo(15, 41);

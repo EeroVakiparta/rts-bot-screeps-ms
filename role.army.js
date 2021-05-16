@@ -54,7 +54,7 @@ let roleArmy = {
         			let colsestTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     				let closestNonSpawn = creep.room.find(FIND_STRUCTURES, {
         					filter: (structure) => {
-        						return structure.structureType == STRUCTURE_INVADER_CORE;
+        						return structure.structureType == STRUCTURE_TOWER;
         					},
         				});
         			let closestNonSpawnClosest = creep.pos.findClosestByRange(closestNonSpawn);
